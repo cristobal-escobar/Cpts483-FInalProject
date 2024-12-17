@@ -1,16 +1,19 @@
-Car Racing Game
-Description
-This project is a 3D Car Racing Game developed using WebGL and JavaScript. It showcases a hierarchical scene graph to manage 3D object transformations and relationships. Phong lighting and textures are applied to create realistic visuals. The user can control a car’s movement with keyboard inputs, and the camera dynamically follows the car.
+# Cpts483-FinalProject - Car Racing Game
 
-Features
-3D Scene Graph: Hierarchical structure for managing object relationships and transformations.
-Lighting and Texturing: Applied Phong lighting and multiple textures for realistic rendering.
-Procedural Generation: Dynamically created objects like UV spheres.
-Model Loading: Imported external OBJ models with materials.
-Dynamic Camera: Camera follows the car’s movement dynamically.
-Future Enhancements
-Adding dynamic lights for richer lighting effects.
-Implementing auto-generated terrain using heightmaps.
-Technologies Used
-WebGL
-JavaScript
+## Description  
+Developed a **3D car racing game** using WebGL and JavaScript. The project implements a hierarchical **scene graph** to manage 3D object transformations and relationships. Phong lighting and textured objects create realistic visuals. The user can control car movement with keyboard inputs, and the camera dynamically follows the car.  
+
+## Features  
+- **3D Scene Graph**: Manage transformations and object relationships.  
+- **Lighting and Texturing**: Phong lighting and textured 3D objects for realism.  
+- **Procedural Objects**: Dynamically generated UV spheres.  
+- **Model Loading**: Imported external **OBJ models** with materials.  
+- **Camera Controls**: Follow the car dynamically with keyboard input.  
+
+## Future Enhancements  
+- Adding **dynamic lights**.  
+- Implementing **auto-generated terrain** using heightmaps.  
+
+## Technologies Used  
+- **WebGL**  
+- **JavaScript**
