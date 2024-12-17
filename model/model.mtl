@@ -1,0 +1,495 @@
+# exported by https://3dviewer.net
+newmtl Material 
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_0.png
+map_Ks Binary_1.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0.5019607843137255 0.5019607843137255 0.5019607843137255
+Ns 31.3725508749485
+map_Kd Binary_4.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_5.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_5.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_5.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_9.png
+map_Ks Binary_10.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_9.png
+map_Ks Binary_10.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_11.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_5.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_11.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_5.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_13.png
+map_Ks Binary_14.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_15.png
+map_Ks Binary_14.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_16.png
+map_Ks Binary_14.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0.5019607843137255 0.5019607843137255 0.5019607843137255
+Ns 658.823549747467
+map_Kd Binary_17.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_18.png
+map_Ks Binary_19.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_18.png
+map_Ks Binary_19.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_20.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_20.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_21.png
+map_Ks Binary_22.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_23.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_25.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_21.png
+map_Ks Binary_22.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_23.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_25.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_21.png
+map_Ks Binary_22.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_23.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_25.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_21.png
+map_Ks Binary_22.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_23.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_25.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_26.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_26.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_26.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_26.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_9.png
+map_Ks Binary_10.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_2.png
+map_Ks Binary_3.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_7.png
+map_Ks Binary_8.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_27.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_5.png
+map_Ks Binary_6.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_28.png
+map_Ks Binary_29.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_30.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_31.png
+map_Ks Binary_32.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_33.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_34.png
+map_Ks Binary_12.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_35.png
+map_Ks Binary_24.png
+newmtl Material
+Kd 0 0 0
+d 1
+Ka 0 0 0
+Ks 0 0 0
+Ns 0
+map_Kd Binary_36.png
+map_Ks Binary_14.png

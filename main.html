@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body { 
+                display: flex;
+                justify-content: center; 
+                flex-direction: column;
+            }
+            canvas {
+                width: 800;
+                height: 600;
+            }
+            #render-button {
+                width: 180px;
+                height: 50px;
+                font-size: 24pt;
+            }
+            #the-canvas { border: 1px solid darkblue; }
+            #user-matrix input { width: 64px; font-size: 24px; }
+        </style>
+    </head>
+
+    <body>
+        <canvas id = "the-canvas" width = "800" height = "600"></canvas>
+        <script src = "lib.js"></script>
+        <script src = "matrix.js"></script>
+        <script src = "mesh.js"></script>
+        <script src = "node.js"></script>
+        <script src = "vector.js"></script>
+        <script src = "keyboard.js"></script>
+
+        <script>
+            let canvas = document.getElementById( 'the-canvas' );
+            
+            /** @type {WebGLRenderingContext} */
+            let gl = canvas.getContext( 'webgl2' );
+
+            let vertex_source = 
+            `   #version 300 es
+                precision mediump float;
+
+                uniform mat4 modelview;
+                uniform mat4 model;
+
+                in vec3 coordinates;
+                in vec4 color;
+                in vec3 normal;
+                in vec2 uv;
+
+                out vec4 v_color;
+                out vec3 v_position;
+                out vec2 v_uv;
+                out vec3 v_normal;
+
+                void main( void ) {
+                    gl_Position = modelview * vec4( coordinates, 1.0 );
+                    v_position = gl_Position.xyz;
+                    mat3 normal_mat = mat3(transpose(inverse(model)));
+                    
+                    v_normal = normalize(normal_mat * normal);
+                    v_color = color;
+                    v_uv = uv;
+                }
+            `;
+            
+            let fragment_source = 
+                `   #version 300 es
+                    precision mediump float;
+
+                    in vec4 v_color;
+                    in vec2 v_uv;
+                    in vec3 v_normal;
+                    in vec3 v_position;
+
+                    out vec4 f_color;
+                    uniform sampler2D tex_0;
+                    uniform sampler2D map_Ks;
+                    uniform sampler2D map_Kd;
+   
+                    uniform vec3 ambient_color;
+                    uniform vec3 diffuse_color;
+                    uniform vec3 sun_dir;
+                    uniform vec3 sun_color;
+                    uniform vec3 specular_color;
+                    uniform vec3 view_pos;
+                    uniform float shininess;
+
+                    uniform vec3 light_pos;
+                    uniform vec3 light_color;
+                    uniform float intensity;
+                    uniform float K;
+                    uniform float L;
+                    uniform float Q;
+
+                    void main( void ) {
+                        /* we can test depth values with this.*/
+                        // // vec4 tex_color = texture(tex_0, v_uv); 
+
+                        vec4 tex_diff = texture(map_Kd, v_uv); 
+                        vec4 tex_spec = texture(map_Ks, v_uv); 
+
+                        vec4 tex = tex_diff * tex_spec;
+
+                        vec3 ambient = tex.rgb * ambient_color;
+                        // vec3 ambient = ambient_color + tex_diff;
+
+                        vec3 N = normalize(v_normal);
+                        vec3 L = normalize(sun_dir);
+                        float diff = max(dot(N, L), 0.0);
+                        vec3 diffuse = diffuse_color * diff * tex.rgb * sun_color;
+                        // vec3 diffuse = diff * diffuse_color * tex_diff.rgb * sun_color;
+
+                        vec3 V = normalize(view_pos);
+                        vec3 R = reflect(-L, N);
+                        float spec = pow(max(dot(V, R), 0.0), shininess);
+                        vec3 specular = spec * specular_color * sun_color;
+                        // vec3 specular = spec * specular_color * tex_spec.rgb * sun_color;
+
+                        vec3 light_L = normalize(light_pos);
+                        float distance = length(light_pos - v_position);
+                        float attenuation = 1.0 / (K + Q * distance + Q * (distance * distance));
+
+                        float light_diff = max(dot(N, light_L), 0.0);
+                        vec3 light_diffuse = light_color * light_diff * tex.rgb * attenuation;
+                        
+                        vec3 light_R = reflect(-light_L, N);
+                        // vec3 light_R =  2.0 * dot(dot(light_L, N), (N - L));
+
+                        vec3 light_V = normalize(view_pos - v_position);
+                        vec3 light_specular = vec3(0.0);
+                        if (light_diff > 0.0){
+                            float light_spec = pow(max(dot(light_V, light_R), 0.0), shininess);
+                            light_specular = light_color * light_spec * attenuation;
+                        }
+                        
+                        vec3 lightning = ambient + diffuse + specular + light_diffuse + light_specular;
+                        // vec3 lightning = ambient + diffuse + specular;
+
+                        // f_color = vec4(lightning, 1.0);
+                        f_color = vec4(lightning, 1.0);
+
+                        // f_color = vec4(lightning, 1.0);
+                        // vec3 tex = tex_diff * tex_spec;
+
+                        // f_color = vec4(tex.rgb, 1.0);
+                    }
+                `;    
+
+            let shader_program = 
+                create_compile_and_link_program( gl, vertex_source, fragment_source );
+            gl.useProgram( shader_program );
+
+            let tex = gl.createTexture();
+            let image = new Image();
+
+            const TAU = Math.PI * 2;
+
+            function make_uv_sphere(gl, program, subdivs)
+            {
+                let verts = [];
+                let indis = [];
+                let layers_num = subdivs;
+
+                for (let layer = 0; layer <= layers_num; layer++){
+                    let y_turns = layer / subdivs / 2;
+                    let y = Math.cos(y_turns * TAU) / 2;
+                    let radius_scale = Math.sin(2 * Math.PI * y_turns);
+
+                    for (let subdiv = 0; subdiv <= subdivs; subdiv++)
+                    {
+                        let turns = subdiv / subdivs;
+                        let rads = turns * TAU
+
+                        let x = Math.cos(rads) / 2 * radius_scale;
+                        let z = Math.sin(rads) / 2 * radius_scale;
+                        let length = Math.sqrt(x * x + y * y + z * z);
+
+                        verts.push(x, y, z);
+                        // verts.push(1, 1, 1, 1);
+                        verts.push(turns, layer/subdivs);
+                        verts.push(x / length, y / length, z / length);
+                    }
+                }
+
+                for ( let layer = 0; layer <= layers_num; layer++)
+                {
+                    for (let subdiv = 0; subdiv <= subdivs; subdiv++)
+                    {
+                        const first = (layer * (subdivs + 1)) + subdiv;
+                        const second = first + subdivs + 1;
+
+                        indis.push(first, second, first + 1);
+                        indis.push(second, second + 1, first + 1);
+                    }
+                }
+                return new Mesh(gl, program, verts, indis);
+            }
+
+            function on_load(image, tex){
+                gl.bindTexture(gl.TEXTURE_2D, tex);
+
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+                gl.generateMipmap(gl.TEXTURE_2D);
+
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+            }
+
+            class RenderMesh
+            {
+                constructor(matrix, mesh)
+                {
+                    this.matrix = matrix;
+                    this.mesh = mesh;
+                }
+            }
+
+            function generate_render_jobs(parent_matrix, node, jobs)
+            {
+                let matrix = parent_matrix.mul(node.matrix);
+                // node.matrix = matrix;
+                // node.local_matrix = node.matrix;
+
+                if (node.data != null)
+                {
+    
+                    jobs.push(new RenderMesh(matrix, node.data));
+
+                    if (node.data.material.name == "Tires")
+                    {
+                        let tires = node;
+                    }
+                }
+
+                for (let child of node.children)
+                {
+                    generate_render_jobs(matrix, child, jobs);
+                }
+            }
+
+            image.onload = function() { on_load(image, tex)};
+
+            image.src = "metal_scale.png";
+
+            set_uniform_vec3_array(gl, shader_program, 'ambient_color', [0.25, 0.25, 0.25]);
+            set_uniform_vec3_array(gl, shader_program, 'diffuse_color', [1.0, 1.0, 1.0]);
+            set_uniform_vec3_array(gl, shader_program, 'specular_color', [2.0, 2.0, 2.0]);
+            // set_uniform_vec3_array(gl, shader_program, 'light_pos', [0.0, 0.0, 6.0]);
+            // set_uniform_vec3_array(gl, shader_program, 'light_color', [1.0, 1.0, 1.0]);
+
+            set_uniform_vec3_array(gl, shader_program, 'sun_dir', [0.0, 4.0, 0.0]);
+            set_uniform_vec3_array(gl, shader_program, 'sun_color', [1.0, 1.0, 1.0]);
+
+            set_uniform_vec3_array(gl, shader_program, 'view_pos', [0.0, 0.0, 0.0]);
+
+            set_uniform_scalar(gl, shader_program, 'shininess', 4);
+            set_uniform_scalar(gl, shader_program, 'K', 1);
+            set_uniform_scalar(gl, shader_program, 'L', 0.1);
+            set_uniform_scalar(gl, shader_program, 'Q', 0.00001);
+
+            // bind_texture_samplers(gl, shader_program, "tex_0");
+
+            set_render_params( gl );
+
+            let root = new Node(null);
+            // let child = null;
+
+            function f (new_meshes) {
+                // let child = root.add_child(new_meshes);
+                let node = new Node(null);
+
+                for (let mesh of new_meshes)
+                {
+                    let child = node.add_child(mesh);
+                }
+                let new_node = root.add_child(null);
+                new_node.children = node.children;
+
+                requestAnimationFrame (render);
+            }
+
+            // let obj_mesh = null;
+
+            // let obj_mesh = make_uv_sphere(gl, shader_program, 16);
+
+            // let mesh = make_uv_sphere(gl, shader_program, 16);
+            // let new_node = new Node(null);
+
+            let def_material = new Material();
+            def_material.diffuse_map = tex;
+            def_material.name = "track";
+            // mesh.material = def_material;
+
+            // let sphere = new_node.add_child(mesh);
+
+
+            Mesh.from_obj_file(gl, '/model/model.obj', "/model/model.mtl", shader_program, def_material, f);
+            // let car = root;
+            Mesh.from_obj_file(gl, 'track.obj', "track.mtl", shader_program, def_material, f);
+
+            let map_tex = gl.createTexture();
+
+            let new_image = new Image();
+
+            new_image.onload = function() { on_load(new_image, map_tex)};
+            new_image.src = "grass_lawn_seamless.png";
+            let new_material = new Material();
+            new_material.diffuse_map = map_tex;
+            new_material.name = "grass";
+            
+            Mesh.from_obj_file(gl, 'model.obj', "model.mtl", shader_program, new_material, f);
+
+
+            // let earth = sun.add_child(make_uv_sphere(gl, shader_program, 32));
+            // earth.position = new Vec4(20, 0, 0, 1);
+            // let moon = earth.add_child(make_uv_sphere(gl, shader_program, 16));
+            // moon.position = new Vec4(0, 10, 0, 1);
+
+            // Mesh.from_obj_file(gl, 'car.obj', shader_program, (mesh) => {
+            //     obj_mesh = mesh;
+            // });
+          
+            // model =  model.mul( Mat4.scale( 6, 6, 6));
+            // model = model.mul( Mat4.translation( 0, 0, 2) );
+
+            let camera = new Mat4();
+
+            let keys = Keys.start_listening();
+        
+            let car = null;
+
+            function render( now ) {
+                requestAnimationFrame( render );
+
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                let aspect = canvas.width / canvas.height;
+
+                let projection = Mat4.perspective(90, aspect, 1, 1001)
+                // let projection = new Mat4();
+                // let car_node = null;
+                // let car_index = -1;
+
+                if (root.children.length > 0)
+                {
+                    for (let child of root.children)
+                    {
+                        if (child.children.length == 62)
+                        {
+                            car = child;
+                            // car.children[33].position = new Vec4(0.05, 0, 0.1);
+                            // car.children[33].matrix = car.children[33].get_matrix();
+                        }
+                    }
+                    // car = root.children[0];
+                    // model = root.get_matrix();
+                }
+
+                camera = keys.update(camera, car);
+                let view = camera.inverse();
+
+                // let modelview = projection.mul(view).mul(model);
+                
+                let jobs = [];
+                generate_render_jobs(new Mat4, root, jobs);
+
+                for (let i = 0; i < jobs.length; i++)
+                {
+                    let model = new Mat4();
+
+                    let material = jobs[i].mesh.material;
+
+                    // Bind diffuse texture
+                    if (material.diffuse_map) {
+                        gl.activeTexture(gl.TEXTURE0);
+                        gl.bindTexture(gl.TEXTURE_2D, material.diffuse_map);
+                        set_uniform_int(gl, shader_program, 'map_Kd', 0);
+                    }
+
+                    // Bind specular texture
+                    if (material.specular_map) {
+                        gl.activeTexture(gl.TEXTURE1);
+                        gl.bindTexture(gl.TEXTURE_2D, material.specular_map);
+                        set_uniform_int(gl, shader_program, 'map_Ks', 1);
+                    }
+
+
+                    model = jobs[i].matrix;
+                    
+                    if (material.name == "track")
+                    {
+                        model = model.mul( Mat4.scale(0.5, -0.5, 0.5));
+                        model = model.mul( Mat4.translation(200, -10, 500));
+                    }
+                    else if (material.name == "grass")
+                    {
+                        model = model.mul( Mat4.scale(0.5, 0.5, 0.5));
+                        model = model.mul( Mat4.translation(200, -10, 500));
+                    }
+
+                    // else if (material.name == "Tires")
+                    // {
+                    //     model = model.mul( Mat4.translation(0, 0, 0.05));
+                    //     model = model.mul( Mat4.scale(200, 200, 200));
+                    // }
+
+                    else{
+                        model = model.mul( Mat4.translation(0, 0, 0.05));
+                        model = model.mul( Mat4.scale(200, 200, 200));
+                        // model = model.mul( Mat4.translation(0, 0, 0.05));
+                    }
+
+                    let modelview = projection.mul(view).mul(model);
+
+                    set_uniform_matrix4( 
+                        gl, shader_program, "model", model.data );
+                    set_uniform_matrix4( 
+                        gl, shader_program, "modelview", modelview.data );
+                    
+                    jobs[i].mesh.render(gl);
+                }
+
+                // mesh.render(gl);
+            }
+            requestAnimationFrame( render );
+			
+        </script>
+        
+    </body>
+</html>
